@@ -10,7 +10,7 @@ export default defineConfig({
   hash: true,
   antd: {},
   alias: {
-    public: '/public',
+    // public: '/public',
   },
   dva: {
     hmr: true,
@@ -161,20 +161,19 @@ export default defineConfig({
   title: false,
   ignoreMomentLocale: true,
   proxy: proxy[REACT_APP_ENV || 'dev'],
-  lessLoader: {
-    // rootpath: '/epp/',
-    // rewriteUrls: 'local',
-  },
+  // lessLoader: {
+  //   rootpath: deployPath,
+  //   // rewriteUrls: 'local',
+  // },
   chainWebpack: function(memo) {
-    memo.module.rules
-    .get('less')
-    .oneOfs.get('css-modules')
-    .uses.get('extract-css-loader')
-    .merge({
-      options: {
-        publicPath: deployPath,
-      },
-    });
+    memo.module
+    .rule('less')
+    .oneOf('css-modules')
+    .use('extract-css-loader')
+    .tap((options) => ({
+      ...options,
+      publicPath: deployPath,
+    }));
   },
   esbuild: {},
 });
