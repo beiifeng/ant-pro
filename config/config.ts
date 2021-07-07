@@ -2,10 +2,16 @@
 import { defineConfig } from 'umi';
 import defaultSettings from './defaultSettings';
 import proxy from './proxy';
-const { REACT_APP_ENV, ENV } = process.env;
+const { REACT_APP_ENV } = process.env;
+
+const deployPath = process.env.NODE_ENV === 'production' ? '/epp/' : '/';
+
 export default defineConfig({
   hash: true,
   antd: {},
+  alias: {
+    public: '/public',
+  },
   dva: {
     hmr: true,
   },
@@ -166,7 +172,7 @@ export default defineConfig({
     .uses.get('extract-css-loader')
     .merge({
       options: {
-        publicPath: '/epp/',
+        publicPath: deployPath,
       },
     });
   },
